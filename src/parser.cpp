@@ -3,14 +3,15 @@
 
 namespace unr {
 
-u32 parse_u32(Reader& reader) {
-    u32 ret = 
-        reader.read() | (reader.read() << 8) | (reader.read() << 16) | (reader.read() << 24);
+u32 parse_u32(Reader& reader)
+{
+    u32 ret = reader.read() | (reader.read() << 8) | (reader.read() << 16) | (reader.read() << 24);
     return ret;
 }
 
-std::string parse_name(Reader& reader) {
-    std::string ret{};
+std::string parse_name(Reader& reader)
+{
+    std::string ret {};
 
     u8 length = reader.read();
 
@@ -24,7 +25,8 @@ std::string parse_name(Reader& reader) {
     return ret;
 }
 
-u32 parse_index(Reader& reader) {
+u32 parse_index(Reader& reader)
+{
     u32 ret = 0;
 
     const u8 first = reader.read();
