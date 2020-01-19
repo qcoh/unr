@@ -4,6 +4,8 @@
 #include "parser.h"
 #include "types.h"
 
+#include <cstring>
+
 // See UT_Package_File_Format.pdf
 
 SCENARIO("parsing unr package types", "[parser]")
@@ -28,6 +30,18 @@ SCENARIO("parsing unr package types", "[parser]")
             THEN("the internal index points after the read value")
             {
                 REQUIRE(reader.index == 4);
+            }
+        }
+
+        WHEN("memcpy-ing the serialized u32")
+        {
+            u32 value = 0;
+
+            std::memcpy(&value, reader.buffer, 4);
+
+            THEN("the memcpy-ed value has the expected endianess (this test will fail on big endian architectures")
+            {
+                REQUIRE(value == 0x44332211);
             }
         }
     }
