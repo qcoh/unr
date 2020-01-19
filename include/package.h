@@ -3,13 +3,14 @@
 #include "types.h"
 #include <vector>
 #include <string>
-#include "reader.h"
 
 namespace unr {
 
+class Reader;
+
 class Package {
 public:
-    static Package deserialize(Reader&);
+    explicit Package(Reader&);
 
 private:
     struct Header {
@@ -42,8 +43,22 @@ private:
     using name_table_type = std::vector<ObjectName>;
     name_table_type name_table;
 
-    static name_table_type deserialize_name_table(Reader&, Reader::offset_type, u32);
+    static name_table_type deserialize_name_table(Reader&, u32, u32);
     
+    struct ExportObject {
+        u32 class_;
+        u32 super;
+        u32 package;
+        u32 object_name;
+        u32 object_flags;
+        u32 serial_size;
+        u32 serial_offset;
+    };
+
+    using export_table_type = std::vector<ExportObject>;
+    export_table_type export_table;
+
+    static export_table_type deserialize_export_table(Reader&, u32, u32);
 };
 
 }
