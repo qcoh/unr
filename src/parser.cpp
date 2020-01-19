@@ -39,7 +39,27 @@ u32 parse_index(Reader& reader)
     const u8 second = reader.read();
     ret |= (second & 0b01111111) << 6;
 
-    // TODO: finish this :/
+    if (!(second & 0b10000000)) {
+        return (first & 0b10000000) ? -ret : ret;
+    }
+
+    const u8 third = reader.read();
+    ret |= (third & 0b01111111) << 13;
+
+    if (!(third & 0b10000000)) {
+        return (first & 0b10000000) ? -ret : ret;
+    }
+
+    const u8 fourth = reader.read();
+    ret |= (fourth & 0b01111111) << 20;
+
+    if (!(fourth & 0b10000000)) {
+        return (first & 0b10000000) ? -ret : ret;
+    }
+
+    const u8 fifth = reader.read();
+    ret |= (fifth & 0b01111111) << 27;
+    
     return ret;
 }
 

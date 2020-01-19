@@ -4,6 +4,8 @@
 #include "parser.h"
 #include "types.h"
 
+// See UT_Package_File_Format.pdf
+
 SCENARIO("parsing unr package types", "[parser]")
 {
     GIVEN("reader with serialized u32")
@@ -54,6 +56,29 @@ SCENARIO("parsing unr package types", "[parser]")
             THEN("the internal index points after the read name")
             {
                 REQUIRE(reader.index == 8);
+            }
+        }
+    }
+
+    GIVEN("reader with serialized index")
+    {
+        test::MockReader reader;
+
+        reader.buffer[0] = 0xf9;
+        reader.buffer[1] = 0xc0;
+        reader.buffer[2] = 0x01;
+
+        WHEN("parsing the index")
+        {
+            u32 index = unr::parse_index(reader);
+
+            THEN("the correct value is parsed")
+            {
+                REQUIRE(index == -12345);
+            }
+            THEN("the internal index points after the read value")
+            {
+                REQUIRE(reader.index == 3);
             }
         }
     }
