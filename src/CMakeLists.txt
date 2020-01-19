@@ -1,7 +1,8 @@
 set(SOURCES
 	main.cpp
 	package.cpp
-	reader.cpp
+	file_reader.cpp
+	parser.cpp
 )
 
 add_executable(unr

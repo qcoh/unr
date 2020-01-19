@@ -1,42 +1,23 @@
 #pragma once
 
-#include <iosfwd>
-#include <string>
+namespace unr {
 
-namespace unr
-{
-
-class Reader
-{
+class Reader {
 public:
     using char_type = unsigned char;
-    using dword_type = unsigned int;
     using offset_type = long;
-    using name_type = std::string;
-    using index_type = unsigned int;
 
-    Reader(const char *);
-    ~Reader();
+    Reader() = default;
+    virtual ~Reader() = default;
 
-    Reader(const Reader &) = delete;
-    Reader &operator=(const Reader &) = delete;
+    virtual char_type peek() = 0;
+    virtual char_type read() = 0;
+    virtual offset_type seek(offset_type) = 0;
 
-    Reader(Reader &&);
-    Reader &operator=(Reader &&);
-
-    char_type peekChar();
-    char_type readChar();
-
-    dword_type readDword();
-
-    name_type readName();
-    
-    index_type readIndex();
-
-    offset_type seek(offset_type);
-
-private:
-    FILE* m_file{nullptr};
+    Reader(const Reader&) = delete;
+    Reader& operator=(const Reader&) = delete;
+    Reader(Reader&&) = delete;
+    Reader& operator=(Reader&&) = delete;
 };
 
-} // namespace unr
+}

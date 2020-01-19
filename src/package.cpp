@@ -1,20 +1,21 @@
 #include "package.h"
 #include "reader.h"
+#include "parser.h"
 
 namespace unr {
 
 Package::Header Package::deserialize_header(Reader& reader) {
     Header ret = {0};
 
-    ret.signature = reader.readDword();
-    ret.package_version = reader.readDword();
-    ret.package_flags = reader.readDword();
-    ret.name_count = reader.readDword();
-    ret.name_offset = reader.readDword();
-    ret.export_count = reader.readDword();
-    ret.export_offset = reader.readDword();
-    ret.import_count = reader.readDword();
-    ret.import_offset = reader.readDword();
+    ret.signature = parse_u32(reader);
+    ret.package_version = parse_u32(reader);
+    ret.package_flags = parse_u32(reader);
+    ret.name_count = parse_u32(reader);
+    ret.name_offset = parse_u32(reader);
+    ret.export_count = parse_u32(reader);
+    ret.export_offset = parse_u32(reader);
+    ret.import_count = parse_u32(reader);
+    ret.import_offset = parse_u32(reader);
 
     return ret;
 }
@@ -27,8 +28,8 @@ Package::name_table_type Package::deserialize_name_table(Reader& reader, Reader:
 
     for (u32 i = 0; i < count; i++) {
         ObjectName object_name{};
-        object_name.object_name = reader.readName();
-        object_name.object_flags = reader.readDword();
+        object_name.object_name = parse_name(reader);
+        object_name.object_flags = parse_u32(reader);
     }
 
     return ret;
