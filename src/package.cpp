@@ -13,8 +13,7 @@ Package::Package(Reader& reader)
     , m_import_table { reader, m_header.import_offset, m_header.import_count }
     , m_export_table { reader, m_header.export_offset, m_header.export_count }
 {
-    m_name_table.dump();
-    m_export_table.dump(m_name_table);
+    m_export_table.dump(m_name_table, m_import_table);
 }
 
 }

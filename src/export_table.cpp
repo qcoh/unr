@@ -1,5 +1,7 @@
 #include "export_table.h"
+#include "import_table.h"
 #include "name_table.h"
+#include "object_reference.h"
 #include "parser.h"
 #include "reader.h"
 #include <iostream>
@@ -46,11 +48,15 @@ std::optional<ExportTable::Object> ExportTable::get(uindex index) const noexcept
     return {};
 }
 
-void ExportTable::dump(const NameTable& name_table)
+void ExportTable::dump(const NameTable& name_table, const ImportTable& import_table)
 {
     std::cout << "Export Table:\n";
     for (const auto& object : m_objects) {
-        std::cout << "Object Name: " << name_table.get(object.object_name)->object_name << '\n';
+        std::cout << "Class: " << ObjectReference { object.class_ }.getName(name_table, import_table, *this) << '\n';
+        std::cout << "Super: " << ObjectReference { object.super }.getName(name_table, import_table, *this) << '\n';
+        std::cout << "Package: " << ObjectReference { object.package }.getName(name_table, import_table, *this) << '\n';
+
+        std::cout << "Name: " << name_table.get(object.object_name)->object_name << "\n\n";
     }
 }
 
