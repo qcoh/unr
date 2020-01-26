@@ -48,15 +48,27 @@ std::optional<ExportTable::Object> ExportTable::get(uindex index) const noexcept
     return {};
 }
 
+// void dumpObject(Reader& reader, usize size, uoffset offset)
+// {
+
+// }
+
 void ExportTable::dump(const NameTable& name_table, const ImportTable& import_table)
 {
     std::cout << "Export Table:\n";
     for (const auto& object : m_objects) {
-        std::cout << "Class: " << ObjectReference { object.class_ }.getName(name_table, import_table, *this) << '\n';
+        ObjectReference class_ { object.class_ };
+
+        std::cout << "Class: " << class_.getName(name_table, import_table, *this) << '\n';
         std::cout << "Super: " << ObjectReference { object.super }.getName(name_table, import_table, *this) << '\n';
         std::cout << "Package: " << ObjectReference { object.package }.getName(name_table, import_table, *this) << '\n';
+        std::cout << "Name: " << name_table.get(object.object_name)->object_name << "\n";
+        std::cout << "Size: " << std::hex << object.serial_size << '\n';
+        std::cout << "Offset: " << std::hex << object.serial_offset << "\n\n";
 
-        std::cout << "Name: " << name_table.get(object.object_name)->object_name << "\n\n";
+        // if (class_.getName(name_table, import_table, *this) == "Brush") {
+        //     dumpObject(reader, object.serial_size, object.serial_offset);
+        // }
     }
 }
 
