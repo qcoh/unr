@@ -59,6 +59,20 @@ private:
     export_table_type export_table;
 
     static export_table_type deserialize_export_table(Reader&, u32, u32);
+
+
+    struct ImportObject {
+        u32 class_package;
+        u32 class_name;
+        u32 package;
+        u32 object_name;
+    };
+
+    using import_table_type = std::vector<ImportObject>;
+    import_table_type import_table;
+
+    static import_table_type deserialize_import_table(Reader&, u32, u32);
+
 };
 
 }

@@ -11,6 +11,8 @@ Package::Package(Reader& reader)
     header = deserialize_header(reader);
     name_table = deserialize_name_table(reader, header.name_offset, header.name_count);
     export_table = deserialize_export_table(reader, header.export_offset, header.export_count);
+    import_table = deserialize_import_table(reader, header.import_offset, header.import_count);
+
 
     for (auto&& object_name : name_table) {
         std::cout << object_name.object_name << '\n';
@@ -60,7 +62,7 @@ Package::export_table_type Package::deserialize_export_table(Reader& reader, u32
     reader.seek(offset);
 
     for (u32 i = 0; i < count; i++) {
-        ExportObject export_object{};
+        ExportObject export_object {};
 
         export_object.class_ = parse_index(reader);
         export_object.super = parse_index(reader);
@@ -69,6 +71,25 @@ Package::export_table_type Package::deserialize_export_table(Reader& reader, u32
         export_object.object_flags = parse_u32(reader);
         export_object.serial_size = parse_index(reader);
         export_object.serial_offset = parse_index(reader);
+    }
+
+    return ret;
+}
+
+Package::import_table_type Package::deserialize_import_table(Reader& reader, u32 offset, u32 count)
+{
+    import_table_type ret {};
+    ret.reserve(count);
+
+    reader.seek(offset);
+
+    for (u32 i = 0; i < count; i++) {
+        ImportObject import_object {};
+
+        import_object.class_package = parse_index(reader);
+        import_object.class_name = parse_index(reader);
+        import_object.package = parse_u32(reader);
+        import_object.object_name = parse_index(reader);
     }
 
     return ret;
