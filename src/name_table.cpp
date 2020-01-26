@@ -1,6 +1,7 @@
 #include "name_table.h"
 #include "parser.h"
 #include "reader.h"
+#include <iostream>
 
 namespace unr {
 
@@ -13,10 +14,8 @@ NameTable::NameTable(Reader& reader, uoffset offset, usize size)
     for (u32 i = 0; i < size; i++) {
         Object object {};
 
-        object.class_package = parse_index(reader);
-        object.class_name = parse_index(reader);
-        object.package = parse_u32(reader);
-        object.object_name = parse_index(reader);
+        object.object_name = parse_name(reader);
+        object.object_flags = parse_u32(reader);
 
         m_objects.push_back(object);
     }
@@ -39,6 +38,13 @@ std::optional<NameTable::Object> NameTable::get(uindex index) const noexcept
         return m_objects[index];
     }
     return {};
+}
+
+void NameTable::dump()
+{
+    for (const auto& object : m_objects) {
+        std::cout << object.object_name << '\n';
+    }
 }
 
 }

@@ -11,10 +11,8 @@ class Reader;
 class NameTable {
 public:
     struct Object {
-        u32 class_package;
-        u32 class_name;
-        u32 package;
-        u32 object_name;
+        std::string object_name;
+        u32 object_flags;
     };
 
     NameTable(Reader&, uoffset, usize);
@@ -27,6 +25,8 @@ public:
     NameTable& operator=(NameTable&&);
 
     std::optional<Object> get(uindex) const noexcept;
+
+    void dump();
 
 private:
     std::vector<Object> m_objects {};

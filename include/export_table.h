@@ -7,6 +7,7 @@
 namespace unr {
 
 class Reader;
+class NameTable;
 
 class ExportTable {
 public:
@@ -30,6 +31,8 @@ public:
     ExportTable& operator=(ExportTable&&);
 
     std::optional<Object> get(uindex) const noexcept;
+
+    void dump(const NameTable&);
 
 private:
     std::vector<Object> m_objects {};

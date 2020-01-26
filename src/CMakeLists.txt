@@ -5,6 +5,7 @@ set(SOURCES
 	import_table.cpp
 	export_table.cpp
 	name_table.cpp
+	header.cpp
 )
 
 add_library(unr_lib

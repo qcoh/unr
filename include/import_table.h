@@ -11,10 +11,10 @@ class Reader;
 class ImportTable {
 public:
     struct Object {
-        u32 class_package;
-        u32 class_name;
+        uindex class_package;
+        uindex class_name;
         u32 package;
-        u32 object_name;
+        uindex object_name;
     };
 
     ImportTable(Reader&, uoffset, usize);

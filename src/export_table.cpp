@@ -1,6 +1,8 @@
 #include "export_table.h"
+#include "name_table.h"
 #include "parser.h"
 #include "reader.h"
+#include <iostream>
 
 namespace unr {
 
@@ -42,6 +44,14 @@ std::optional<ExportTable::Object> ExportTable::get(uindex index) const noexcept
         return m_objects[index];
     }
     return {};
+}
+
+void ExportTable::dump(const NameTable& name_table)
+{
+    std::cout << "Export Table:\n";
+    for (const auto& object : m_objects) {
+        std::cout << "Object Name: " << name_table.get(object.object_name)->object_name << '\n';
+    }
 }
 
 }
