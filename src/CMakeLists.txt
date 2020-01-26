@@ -2,6 +2,9 @@ set(SOURCES
 	package.cpp
 	file_reader.cpp
 	parser.cpp
+	import_table.cpp
+	export_table.cpp
+	name_table.cpp
 )
 
 add_library(unr_lib
