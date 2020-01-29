@@ -19,6 +19,12 @@ target_include_directories(unr_lib
 	${CMAKE_SOURCE_DIR}/include	
 )
 
+target_compile_features(unr_lib
+	PUBLIC
+	cxx_std_17
+)
+
+
 # executable:
 
 add_executable(unr
